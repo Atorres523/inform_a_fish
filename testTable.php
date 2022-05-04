@@ -1,4 +1,5 @@
 <?php
+session_start();
 INCLUDE("connection.php");
 INCLUDE("functions.php");
 ?>
@@ -69,7 +70,7 @@ INCLUDE("functions.php");
             echo "</table>";
             ?>
 
-            <h3>Top Record Caught</h3>           
+            <h3>Top Record Catches</h3>           
 
             <div class="container">
             <table id="example" class="table table-striped table-bordered nowrap" style="width:100%">
@@ -101,7 +102,7 @@ INCLUDE("functions.php");
         </tbody>
 
         <h1>Enter Catch</h1>
-<form action="CatchesTable.php" method="POST">
+<form action="testTable.php" method="POST">
     <label>Username: </label><br><input type="text" name="Uname"><br><br>
     <label>Fish Caught: </label><br><input type="text" name="FishName"><br><br>
     <label>Date: </label><br><input type="text" name="DateCaught"><br><br>
@@ -149,18 +150,11 @@ INCLUDE("functions.php");
 
 // if the submit button is pressed then go into if statement
 if (isset($_POST["submit"])) {
-    // print out the info you printed, not necessary 
-    echo "You entered: " . htmlspecialchars($_POST['Uname']) . " <br>";
-    echo "You entered: " . htmlspecialchars($_POST['FishName']) . " <br>";
-    echo "You entered: " . htmlspecialchars($_POST['DateCaught']) . " <br>";
-    echo "You entered: " . htmlspecialchars($_POST['BodyID']) . " <br>";
-    echo "You entered: " . htmlspecialchars($_POST['SizeCaught']) . " <br>";
-    echo "You entered: " . htmlspecialchars($_POST['NativeOrStocked']) . " <br>";
-    echo "You entered: " . htmlspecialchars($_POST['Bait']) . " <br>";
-    echo "You entered: " . htmlspecialchars($_POST['SpotID']) . " <br>";
+
     // checks to see is all the fields have data inputed into them if not then enter again with all 
     // required info
-    if(!empty($_POST['Uname']) &&!empty($_POST['FishName']) &&!empty($_POST['BodyID']) &&!empty($_POST['DateCaught'])) {
+    if(!empty($_POST['Uname']) &&!empty($_POST['FishName']) &&!empty($_POST['BodyID'])) {
+
         // give each entered input their own variable to use later if needed
         $uname = $_POST['Uname'];
         $fish = $_POST['FishName'];
@@ -170,18 +164,36 @@ if (isset($_POST["submit"])) {
         $NativeOrStocked = $_POST['NativeOrStocked'];
         $bait = $_POST['Bait'];
         $SpotID = $_POST['SpotID'];
+        //check if DateCaught is empty
+        if(empty($DateCaught)){
+            $DateCaught = date("Y-m-d H:i:s");
+            }
+
         // pass in the info into a queue that will insert data
         $query = "insert into Catches(Username,BodyID,FishName,DateCaught,SizeCaught,NativeOrStocked,Bait,SpotID) 
         values('$uname', '$body', '$fish', '$DateCaught', '$SizeCaught', '$NativeOrStocked', '$bait', '$SpotID')";
         // execute whats in the queue
         $run = mysqli_query($con, $query) or die(mysql_error());
         if($run){
-            echo "<meta http-equiv='refresh' content='0'>";
+
+            // print out the info you printed, not necessary 
+            echo "You entered: " . htmlspecialchars($_POST['Uname']) . " <br>";
+            echo "You entered: " . htmlspecialchars($_POST['FishName']) . " <br>";
+            echo "You entered: " . htmlspecialchars($DateCaught) . " <br>";
+            echo "You entered: " . htmlspecialchars($_POST['BodyID']) . " <br>";
+            echo "You entered: " . htmlspecialchars($_POST['SizeCaught']) . " <br>";
+            echo "You entered: " . htmlspecialchars($_POST['NativeOrStocked']) . " <br>";
+            echo "You entered: " . htmlspecialchars($_POST['Bait']) . " <br>";
+            echo "You entered: " . htmlspecialchars($_POST['SpotID']) . " <br>";
+
+            //echo "<meta http-equiv='refresh' content='0'>";
             //echo "Form Submitted";
         }
     }
     else
         echo "All fields required";
+
+    
 }
 ?>
 
@@ -203,5 +215,11 @@ if (isset($_POST["submit"])) {
             new $.fn.dataTable.FixedHeader( table );
         } );
     </script>
+    <script>
+    if ( window.history.replaceState ) {
+        window.history.replaceState( null, null, window.location.href );
+    }
+</script>
+
 </body>
 </html>
