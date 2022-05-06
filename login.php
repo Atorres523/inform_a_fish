@@ -13,7 +13,7 @@ session_start();
 		$user_name = $_POST['user_name'];
 		$password = $_POST['password'];
 
-		$validation = $con->prepare("SELECT * FROM Fisherman WHERE Username=?");
+		$validation = $db->prepare("SELECT * FROM Fisherman WHERE Username=?");
     	$validation->bind_param('s', $user_name);
     	$validation->execute();
 
@@ -23,6 +23,7 @@ session_start();
 		if ($validation->fetch() && password_verify($password, $res_password)) 
 		{
 				$_SESSION['user_name'] = $user_data['Username'];
+				$_SESSION['loggedIn'] = true; //Sets logged in to true if username and password are correct
 				header("Location: index3.php");
 				die;			
 		}
@@ -32,17 +33,17 @@ session_start();
 		}
 	}
 
-
 ?>
 
 
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Login</title>
+	
+	<title>Login | Inform A Fish</title> 
 </head>
 <body>
-
+<body style = "background: url(https://wallpaperaccess.com/full/275578.jpg)">
 	<style type="text/css">
 	
 	#text{
@@ -80,10 +81,11 @@ session_start();
 
 			Username: <input id="text" type="text" name="user_name"><br><br>
 			Password: <input id="text" type="password" name="password"><br><br>
+			<!-- Name: <input id="text" type="text" name="name"><br><br> -->
 
-			<input id="button" type="submit" value="Login"><br><br>
+			<input id="button" type="submit" value="Login"><br><br> 
 
-			<a href="signup.php">Click to Signup</a><br><br>
+			Don't have an account? <a href="signup.php">Sign Up</a><br><br>
 		</form>
 	</div>
 </body>

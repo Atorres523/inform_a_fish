@@ -8,5 +8,7 @@ if(isset($_SESSION['user_name'])) //replace with $user_name
 
 }
 
-header("Location: login.php");
+$_SESSION['loggedIn'] = false; //Tells website user is no longer logged in
+
+header("Location: login.php"); //Sends user back to login
 die;

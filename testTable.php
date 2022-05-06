@@ -2,6 +2,14 @@
 session_start();
 INCLUDE("connection.php");
 INCLUDE("functions.php");
+
+if($_SESSION['loggedIn']){
+//allows user access to page if they are confirmed to be logged in
+}
+else{
+//redirect to the login page
+header('Location: login.php'); 
+}
 ?>
 
 <!DOCTYPE html>
