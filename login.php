@@ -24,7 +24,7 @@ session_start();
 		{
 				$_SESSION['user_name'] = $user_data['Username'];
 				$_SESSION['loggedIn'] = true; //Sets logged in to true if username and password are correct
-				header("Location: index3.php");
+				header("Location: index.php");
 				die;			
 		}
 		else
