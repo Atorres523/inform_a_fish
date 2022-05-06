@@ -15,7 +15,7 @@ session_start();
 
 		if(!empty($name) && !empty($user_name) && !empty($password) && !empty($type))
 		{
-			
+			//sequel injection prevention
 			$validation = $con->prepare("SELECT * FROM Fisherman WHERE Username=?");
 			$validation->bind_param('s', $user_name);
 			$validation->execute();
