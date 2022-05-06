@@ -15,28 +15,30 @@ session_start();
 
 		if(!empty($name) && !empty($user_name) && !empty($password) && !empty($type))
 		{
-			$query = "select * from Fisherman where Username = '$user_name' limit 1";
-			$result = mysqli_query($con, $query);
+			
+			$validation = $con->prepare("SELECT * FROM Fisherman WHERE Username=?");
+			$validation->bind_param('s', $user_name);
+			$validation->execute();
 
-			if($result)
-			{
-				if($result && mysqli_num_rows($result) > 0)
-				{ 
-					echo "user already exists";
-				}
-				else
-				{
-					//save to database
-					$hash = password_hash($password, PASSWORD_DEFAULT);
-					$query = "CALL RegisterFisherman('$name','$user_name','$hash','$type')";
+			mysqli_stmt_bind_result($validation, $res_name, $res_user, $res_password);
 
-					mysqli_query($con, $query);
-
-					header("Location: login.php");
-					die;
-				}
-
+			if($validation->fetch())
+			{ 
+				echo "user already exists";
 			}
+			else
+			{
+				//save to database
+				$hash = password_hash($password, PASSWORD_DEFAULT);
+				$query = "CALL RegisterFisherman('$name','$user_name','$hash','$type')";
+
+				mysqli_query($con, $query);
+
+				header("Location: login.php");
+				die;
+			}
+
+			
 		}
 		else
 		{
