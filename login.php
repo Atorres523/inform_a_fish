@@ -13,7 +13,7 @@ session_start();
 		$user_name = $_POST['user_name'];
 		$password = $_POST['password'];
 
-		$validation = $db->prepare("SELECT * FROM Fisherman WHERE Username=?");
+		$validation = $con->prepare("SELECT * FROM Fisherman WHERE Username=?");
     	$validation->bind_param('s', $user_name);
     	$validation->execute();
 
