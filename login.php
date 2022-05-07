@@ -29,7 +29,7 @@ session_start();
 				$validation->close();
 
 				//checks if user is an admin
-				//if they are they will be redirected to the admin page
+				//If they are they will be redirected to the admin page
 				$isAdminStatement = $con->prepare("CALL IsAdmin(?)");
 				if (!$isAdminStatement) {
 					echo "ERROR!";
