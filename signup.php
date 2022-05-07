@@ -34,6 +34,10 @@ session_start();
 
 				mysqli_query($con, $query);
 
+				$query = "CALL InsertRole('$user_name', 'user')";
+
+				mysqli_query($con, $query);
+
 				header("Location: login.php");
 				die;
 			}
