@@ -30,7 +30,7 @@ session_start();
 			{
 				//save to database
 				$hash = password_hash($password, PASSWORD_DEFAULT);
-				$query = "CALL RegisterFisherman('$name','$user_name','$hash','$type')";
+				$query = "CALL RegisterFisherman('$name','$user_name','$hash','$type')"; //STORED PROCEDURE RegisterFisherman
 
 				mysqli_query($con, $query);
 
