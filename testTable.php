@@ -55,9 +55,7 @@ header('Location: login.php');
             ini_set("log_errors", 1);
             ini_set("display_errors", 1);
 
-            $result = mysqli_query($con,"SELECT Fisherman.Name as FLname, Catches.Username, FishermanType.Type as FishermanType, Catches.FishName, Body.Name as Bname, DateCaught, SizeCaught, NativeOrStocked, Bait, SpotID 
-            from Catches inner join Fisherman inner join FishermanType inner join Body
-            on Catches.BodyID = Body.BodyID and Catches.Username = Fisherman.Username and Fisherman.Username = FishermanType.Username order by Datecaught DESC");
+            $result = mysqli_query($con,"SELECT * FROM CatchesTable"); //VIEW CatchesTable
 
 
             while($row = mysqli_fetch_array($result))
@@ -90,8 +88,7 @@ header('Location: login.php');
 
             <?php
 
-                $result2 = mysqli_query($con,"select Fisherman.Name as Name, Fisherman.Username as Username, COUNT(FishName) as Amount 
-                from Catches inner join Fisherman on Fisherman.Username = Catches.Username group by Username order by Amount DESC limit 1");
+                $result2 = mysqli_query($con,"select * FROM MostFishCaught"); //VIEW MostFishCaught
 
                 while($row = mysqli_fetch_array($result2))
                 {
@@ -114,12 +111,19 @@ header('Location: login.php');
     <label>Username: </label><br><input type="text" name="Uname"><br><br>
     <label>Fish Caught: </label><br><input type="text" name="FishName"><br><br>
     <label>Date: </label><br><input type="text" name="DateCaught"><br><br>
-    <label for="BodyID">BodyID: </label><br>
+    <label for="BodyID">Body: </label><br>
         <select name="BodyID" id="BodyID">
         <option hidden selected> -- </option>
-        <?php for ($i = 1; $i <= 9; $i++) : ?>
-            <option value="<?php echo $i; ?>"><?php echo $i; ?></option>
-        <?php endfor; ?>
+            <option value='1'>Lake Evans</option>
+            <option value='2'>Castaic Lake</option>
+            <option value='3'>Pyramid Lake</option>
+            <option value='4'>Quail Lake</option>
+            <option value='5'>Lake Isabella</option>
+            <option value='6'>California Aqueduct</option>
+            <option value='7'>San Luis Ressivor</option>
+            <option value='8'>Oneill Forebay</option>
+            <option value='9'>Lake Webb</option>
+            <option value='10'>Lake Ming</option>
         </select><br><br>
     
    <!-- <label>Fish Size: <input type="text" name="SizeCaught"></label> -->
@@ -178,8 +182,7 @@ if (isset($_POST["submit"])) {
             }
 
         // pass in the info into a queue that will insert data
-        $query = "insert into Catches(Username,BodyID,FishName,DateCaught,SizeCaught,NativeOrStocked,Bait,SpotID) 
-        values('$uname', '$body', '$fish', '$DateCaught', '$SizeCaught', '$NativeOrStocked', '$bait', '$SpotID')";
+        $query = "FishermanCatches('$uname', '$body', '$fish', '$DateCaught', '$SizeCaught', '$NativeOrStocked', '$bait', '$SpotID')"; //STORED PROCEDURE FishermanCatches
         // execute whats in the queue
         $run = mysqli_query($con, $query) or die(mysql_error());
         if($run){
@@ -194,7 +197,7 @@ if (isset($_POST["submit"])) {
             echo "You entered: " . htmlspecialchars($_POST['Bait']) . " <br>";
             echo "You entered: " . htmlspecialchars($_POST['SpotID']) . " <br>";
 
-            //echo "<meta http-equiv='refresh' content='0'>";
+            echo "<meta http-equiv='refresh' content='0'>";
             //echo "Form Submitted";
         }
     }
