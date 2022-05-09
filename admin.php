@@ -12,7 +12,9 @@ session_start(); //checks if the user is logged in
 		header('Location: login.php'); 
 		}
 
-    echo"hello";
+	include("admin.html");
+
+    //echo"hello";
 
 	//$user_data = check_login($con);
 
