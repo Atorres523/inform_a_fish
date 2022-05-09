@@ -32,7 +32,7 @@ header('Location: login.php');
     <br>
     <div class="container">
     <table id="example" class="table table-striped table-bordered nowrap" style="width:100%">
-    <a href="index3.php">Return</a><br>
+    <a href="index.php">Return</a><br>
     <h1>Catch History</h1>
         <thead>
             <tr>
