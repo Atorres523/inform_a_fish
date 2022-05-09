@@ -153,6 +153,7 @@ header('Location: login.php');
             <option value="spooks">Spooks</option>
         </select> -->
     <label>SpotID: </label><br><input type="text" name="SpotID"><br><br>
+    <?php include 'coordinates.html'; ?>
     <button type="submit" name="submit">submit</button>
 
 </form><br>
