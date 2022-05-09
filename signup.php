@@ -34,7 +34,7 @@ session_start();
 
 				mysqli_query($con, $query);
 
-				$query = "CALL InsertRole('$user_name', 'user')";
+				$query = "CALL InsertRole('$user_name', 'user')"; //STORED PROCEDURE InsertRole
 
 				mysqli_query($con, $query);
 
