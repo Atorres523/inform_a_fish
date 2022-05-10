@@ -3,13 +3,13 @@ session_start();
 INCLUDE("connection.php");
 INCLUDE("functions.php");
 
-/*if($_SESSION['loggedIn']){
+if($_SESSION['loggedIn'] && $_SESSION['is_admin']){
 //allows user access to page if they are confirmed to be logged in
 }
 else{
 //redirect to the login page
 header('Location: login.php'); 
-}*/
+}
 
 if($_SERVER['REQUEST_METHOD'] == "POST")
 	{
