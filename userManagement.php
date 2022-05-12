@@ -213,7 +213,7 @@ if(isset($_POST['add']))
                         </select><br><br>
                         
 
-                        <input id="button" type="submit" name="edit" value="Edit"><br><br> 
+                        <!-- <input id="button" type="submit" name="edit" value="Edit"><br><br> -->
                         </form>
                      </div>
                       <!--<div class="modal-footer">
