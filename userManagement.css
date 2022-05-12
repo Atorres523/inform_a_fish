@@ -1,101 +1,50 @@
- /* Dropdown Button */
- .dropbtn {
-    background-color: #04AA6D;
-    color: white;
-    padding: 16px;
-    font-size: 16px;
-    border: none;
-  }
-  
-  /* The container <div> - needed to position the dropdown content */
-  .dropdown {
-    position: relative;
-    display: inline-block;
-    padding: 40px 100px;
-    bottom: 20px;
-  }
-  
-  /* Dropdown Content (Hidden by Default) */
-  .dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #f1f1f1;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
-  }
-  
-  /* Links inside the dropdown */
-  .dropdown-content a {
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-  }
-  
-  /* Change color of dropdown links on hover */
-  .dropdown-content a:hover {background-color: #ddd;}
-  
-  /* Show the dropdown menu on hover */
-  .dropdown:hover .dropdown-content {display: block;}
-  
-  /* Change the background color of the dropdown button when the dropdown content is shown */
-  .dropdown:hover .dropbtn {background-color: #3e8e41;} 
 
-
-
-
-
-
-
-
-
-   /* The Modal (background) */
+ /* The Modal (background) */
 .modal {
-  display: none; /* Hidden by default */
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
-  left: 0;
-  top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+display: none; /* Hidden by default */
+position: fixed; /* Stay in place */
+z-index: 1; /* Sit on top */
+left: 0;
+top: 0;
+width: 100%; /* Full width */
+height: 100%; /* Full height */
+overflow: auto; /* Enable scroll if needed */
+background-color: rgb(0,0,0); /* Fallback color */
+background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
 
 /* Modal Content/Box */
 .modal-content {
-  background-color: #fefefe;
-  margin: 15% auto; /* 15% from the top and centered */
-  padding: 20px;
-  border: 1px solid #888;
-  width: 80%; /* Could be more or less, depending on screen size */
+background-color: #fefefe;
+margin: 15% auto; /* 15% from the top and centered */
+padding: 20px;
+border: 1px solid #888;
+width: 80%; /* Could be more or less, depending on screen size */
 }
 
 /* The Close Button */
 .close {
-  color: #aaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
+color: #aaa;
+float: right;
+font-size: 28px;
+font-weight: bold;
 }
 
 .close:hover,
 .close:focus {
-  color: black;
-  text-decoration: none;
-  cursor: pointer;
+color: black;
+text-decoration: none;
+cursor: pointer;
 } 
 
 
 
 
- /* Modal Header */
- .modal-header {
-  padding: 2px 16px;
-  background-color: #5cb85c;
-  color: white;
+/* Modal Header */
+.modal-header {
+padding: 2px 16px;
+background-color: #5cb85c;
+color: white;
 }
 
 /* Modal Body */
@@ -103,26 +52,30 @@
 
 /* Modal Footer */
 .modal-footer {
-  padding: 2px 16px;
-  background-color: #5cb85c;
-  color: white;
+padding: 2px 16px;
+background-color: #5cb85c;
+color: white;
 }
 
 /* Modal Content */
 .modal-content {
-  position: relative;
-  background-color: #fefefe;
-  margin: auto;
-  padding: 0;
-  border: 1px solid #888;
-  width: 80%;
-  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
-  animation-name: animatetop;
-  animation-duration: 0.4s
+position: relative;
+background-color: #fefefe;
+margin: auto;
+padding: 0;
+border: 1px solid #888;
+width: 80%;
+box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+animation-name: animatetop;
+animation-duration: 0.4s
 }
 
 /* Add Animation */
 @keyframes animatetop {
-  from {top: -300px; opacity: 0}
-  to {top: 0; opacity: 1}
+from {top: -300px; opacity: 0}
+to {top: 0; opacity: 1}
 } 
+
+.conatiner {
+  bottom: 50px;
+}

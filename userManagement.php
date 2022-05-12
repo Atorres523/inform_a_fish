@@ -11,7 +11,7 @@ else{
 header('Location: login.php'); 
 }
 
-if($_SERVER['REQUEST_METHOD'] == "POST")
+if(isset($_POST['add']))
 	{
 		$name = $_POST['person_name'];
 		$user_name = $_POST['user_name'];
@@ -43,17 +43,44 @@ if($_SERVER['REQUEST_METHOD'] == "POST")
 
 				mysqli_query($con, $query);
 
-				header("Location: login.php");
+				//header("Location: userManagement.php");
+        echo '<script type="text/javascript"> alert("User Inserted") </script>';
 				die;
 			}
 
 			
 		}
 		else
-		{
-			echo "All Fields Required";
+		{	
+      echo "All Fields Required";
 		}
     }
+
+  if(isset($_POST['delete']))
+  {
+    $user_name = $_POST['user_name'];
+
+      $query = "CALL DropFisherman('$user_name')"; //STORED PROCEDURE DropFisherman;
+      $query_run = mysqli_query($con, $query);
+      if($query_run)
+      {
+        echo '<script type="text/javascript"> alert("User Deleted") </script>';
+				//header("Location: userManagement.php");
+				//die;
+      }
+      else
+      {
+        echo '<script type="text/javascript"> alert("User Not Deleted") </script>';
+      }
+   
+  }
+
+  if(isset($_POST['edit']))
+  {
+   
+
+  }
+
 
 ?>
 
@@ -64,7 +91,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST")
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="userManagement.css">
-    <title>Catches</title>
+    <title>User Management</title>
     
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -111,23 +138,23 @@ if($_SERVER['REQUEST_METHOD'] == "POST")
             ?>
 
         </div>
+              
+              <div class="container">
+                <button class = "modal-button" href="#myModal1">Add User</button><!-- Add User -->
+              </div><br> 
+              
+                <!-- The Modal -->
+                <div id="myModal1" class="modal"> 
 
-        <div class="dropdown">
-            <button class="dropbtn">Options</button>
-                <div class="dropdown-content">
-                <a href="#" id="myBtn">Add User</a> <!-- Add User -->
-                    <!-- The Modal -->
-                    <div id="myModal" class="modal"> <!-- HAVING TROUBLE WITH MODAL DISSAPPEARING WHEN YOU MOVE MOUSE OFF SCREEN -->
-
-                    <!-- Modal content -->
-                    <div class="modal-content">
+                  <!-- Modal content -->
+                  <div class="modal-content">
                     <div class="modal-header">
-                        <span class="close">&times;</span>
-                        <h2>Add User</h2>
+                      <span class="close">&times;</span>
+                      <h2>Add User</h2>
                     </div>
                     <div class="modal-body">
-                        <form method="post">
-                        <div style="font-size: 20px;margin: 10px;color: white;">Add</div>
+                      <form method="post">
+                      <div style="font-size: 20px;margin: 10px;color: white;">Add</div>
 
                         Full Name:<input id="text" type="text" name="person_name"><br><br>
                         Username: <input id="text" type="text" name="user_name"><br><br>
@@ -145,19 +172,84 @@ if($_SERVER['REQUEST_METHOD'] == "POST")
                         </select><br><br>
                         
 
-                        <input id="button" type="submit" value="Add"><br><br>
+                        <input id="button" type="submit" name="add" value="Add"><br><br>
                         </form>
-                    </div>
-                    <div class="modal-footer">
+                     </div>
+                      <!-- <div class="modal-footer">
                         <h3></h3>
-                    </div>
-                    </div>
+                      </div> -->
+                </div>    
+                 </div> 
+                <div class="container">
+                  <button class="modal-button" href="#myModal2">Edit User</button><!-- Edit User -->
+                </div><br>
+                <!-- The Modal -->
+                <div id="myModal2" class="modal"> 
 
+                  <!-- Modal content -->
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <span class="close">&times;</span>
+                      <h2>Edit User</h2>
                     </div>
-                <a href="#">Edit User</a> <!-- Edit User -->
-                <a href="#">Delete User</a> <!-- Delete User -->
-            </div>
-        </div>  
+                    <div class="modal-body">
+                      <form method="post">
+                      <div style="font-size: 20px;margin: 10px;color: white;">Add</div>
+
+                      
+                        Full Name:<input id="text" type="text" name="person_name"><br><br>
+                        Username: <input id="text" type="text" name="user_name"><br><br>
+                        Password: <input id="text" type="password" name="password"><br><br>
+                        <label for="FishermanType">Fisherman Type: </label><br>
+                        <select name="FishermanType" id="FishermanType">
+                            <option hidden selected> -- select an option -- </option>
+                            <option value="bass">Bass</option>
+                            <option value="fly">Fly</option>
+                            <option value="spear">Spear</option>
+                            <option value="bow">Bow</option>
+                            <option value="cat">Cat</option>
+                            <option value="fresh">Fresh Water</option>
+                            <option value="salt">Salt Water</option>
+                        </select><br><br>
+                        
+
+                        <input id="button" type="submit" name="edit" value="Edit"><br><br> 
+                        </form>
+                     </div>
+                      <!--<div class="modal-footer">
+                        <h3></h3>
+                      </div> -->
+                </div>    
+                 </div> 
+                <div class="container">
+                  <button class="modal-button" href="#myModal3">Delete User</button> <!-- Delete User -->
+                </div>
+                <!-- The Modal -->
+                <div id="myModal3" class="modal"> 
+
+                  <!-- Modal content -->
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <span class="close">&times;</span>
+                      <h2>Delete User</h2>
+                    </div>
+                    <div class="modal-body">
+                      <form method="POST"> <!-- form method delete -->
+                      <div style="font-size: 20px;margin: 10px;color: white;">Add</div>
+
+                      <p>Enter Username to Delete Fisherman:</p>
+                        Username: <input id="text" type="text" name="user_name"><br><br>
+                        
+                        <input id="button" type="submit" name="delete" value="Delete"><br><br>
+                        </form>
+                     </div>
+                     <!-- <div class="modal-footer">
+                        <h3></h3>
+                      </div> -->
+                </div>    
+                 </div> 
+            
+         
 
         </tbody>
 
@@ -188,31 +280,41 @@ if($_SERVER['REQUEST_METHOD'] == "POST")
 
 
 <script>
-    // Get the modal
-var modal = document.getElementById("myModal");
-
 // Get the button that opens the modal
-var btn = document.getElementById("myBtn");
+var btn = document.querySelectorAll("button.modal-button");
+
+// All page modals
+var modals = document.querySelectorAll('.modal');
 
 // Get the <span> element that closes the modal
-var span = document.getElementsByClassName("close")[0];
+var spans = document.getElementsByClassName("close");
 
-// When the user clicks on the button, open the modal
-btn.onclick = function() {
-  modal.style.display = "block";
+// When the user clicks the button, open the modal
+for (var i = 0; i < btn.length; i++) {
+ btn[i].onclick = function(e) {
+    e.preventDefault();
+    modal = document.querySelector(e.target.getAttribute("href"));
+    modal.style.display = "block";
+ }
 }
 
 // When the user clicks on <span> (x), close the modal
-span.onclick = function() {
-  modal.style.display = "none";
+for (var i = 0; i < spans.length; i++) {
+ spans[i].onclick = function() {
+    for (var index in modals) {
+      if (typeof modals[index].style !== 'undefined') modals[index].style.display = "none";    
+    }
+ }
 }
 
 // When the user clicks anywhere outside of the modal, close it
 window.onclick = function(event) {
-  if (event.target == modal) {
-    modal.style.display = "none";
-  }
-} 
+    if (event.target.classList.contains('modal')) {
+     for (var index in modals) {
+      if (typeof modals[index].style !== 'undefined') modals[index].style.display = "none";    
+     }
+    }
+}
 
 </script>
 
