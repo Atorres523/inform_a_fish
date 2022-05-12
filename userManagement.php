@@ -35,7 +35,13 @@ if(isset($_POST['add'])) //Add User
 			$validation->execute();
 
 			mysqli_stmt_bind_result($validation, $res_name, $res_user, $res_password);
-			
+
+			if($validation->fetch())
+			{ 
+				echo "user already exists";
+			}
+			else
+			{
 				//save to database
 				$hash = password_hash($password, PASSWORD_DEFAULT);
 				$query = "CALL RegisterFisherman('$name','$user_name','$hash','$type')"; //STORED PROCEDURE RegisterFisherman
@@ -50,12 +56,14 @@ if(isset($_POST['add'])) //Add User
         echo '<script type="text/javascript"> alert("User Inserted") </script>';
 				//die;
 			
-		}
-		else
-		{	
-      echo "All Fields Required";
-		}
+		  }
     }
+    else
+    {	
+      echo "All Fields Required";
+    }
+    
+  }
 ?>
 <?php
   if(isset($_POST['delete'])) //Delete User

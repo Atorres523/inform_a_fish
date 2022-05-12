@@ -13,14 +13,14 @@ session_start();
 		$password = $_POST['password'];
 		$type = $_POST['FishermanType'];
 
-		$username_query = "SELECT * FROM Fisherman WHERE Username = '$user_name'"; 
-		$username_match = mysqli_query($con, $username_query);
+    $username_query = "SELECT * FROM Fisherman WHERE Username = '$user_name'"; 
+    $username_match = mysqli_query($con, $username_query);
 
-		if(mysqli_num_rows($username_match)>0)
-		{
-		echo '<script type="text/javascript"> alert("Username already exists") </script>';
-		
-		}
+    if(mysqli_num_rows($username_match)>0)
+    {
+      echo '<script type="text/javascript"> alert("Username already exists") </script>';
+      
+    }
 
 		else if(!empty($name) && !empty($user_name) && !empty($password) && !empty($type))
 		{
@@ -31,6 +31,12 @@ session_start();
 
 			mysqli_stmt_bind_result($validation, $res_name, $res_user, $res_password);
 
+			if($validation->fetch())
+			{ 
+				echo "user already exists";
+			}
+			else
+			{
 				//save to database
 				$hash = password_hash($password, PASSWORD_DEFAULT);
 				$query = "CALL RegisterFisherman('$name','$user_name','$hash','$type')"; //STORED PROCEDURE RegisterFisherman
@@ -41,14 +47,16 @@ session_start();
 
 				mysqli_query($con, $query);
 
-				header("Location: login.php");
-				die;
+				//header("Location: userManagement.php");
+        echo '<script type="text/javascript"> alert("User Inserted") </script>';
+				//die;
 			
-		}
-		else
-		{
-			echo "All Fields Required";
-		}
+		  }
+    }
+    else
+    {	
+      echo "All Fields Required";
+    }
 	}
 	
 ?>
