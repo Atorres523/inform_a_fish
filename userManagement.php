@@ -11,14 +11,23 @@ else{
 header('Location: login.php'); 
 }
 
-if(isset($_POST['add']))
+if(isset($_POST['add'])) //Add User
 	{
 		$name = $_POST['person_name'];
 		$user_name = $_POST['user_name'];
 		$password = $_POST['password'];
 		$type = $_POST['FishermanType'];
 
-		if(!empty($name) && !empty($user_name) && !empty($password) && !empty($type))
+    $username_query = "SELECT * FROM Fisherman WHERE Username = '$user_name'"; 
+    $username_match = mysqli_query($con, $username_query);
+
+    if(mysqli_num_rows($username_match)>0)
+    {
+      echo '<script type="text/javascript"> alert("Username already exists") </script>';
+      
+    }
+
+		else if(!empty($name) && !empty($user_name) && !empty($password) && !empty($type))
 		{
 			//sequel injection prevention
 			$validation = $con->prepare("SELECT * FROM Fisherman WHERE Username=?");
@@ -26,13 +35,7 @@ if(isset($_POST['add']))
 			$validation->execute();
 
 			mysqli_stmt_bind_result($validation, $res_name, $res_user, $res_password);
-
-			if($validation->fetch())
-			{ 
-				echo "user already exists";
-			}
-			else
-			{
+			
 				//save to database
 				$hash = password_hash($password, PASSWORD_DEFAULT);
 				$query = "CALL RegisterFisherman('$name','$user_name','$hash','$type')"; //STORED PROCEDURE RegisterFisherman
@@ -45,9 +48,7 @@ if(isset($_POST['add']))
 
 				//header("Location: userManagement.php");
         echo '<script type="text/javascript"> alert("User Inserted") </script>';
-				die;
-			}
-
+				//die;
 			
 		}
 		else
@@ -55,31 +56,92 @@ if(isset($_POST['add']))
       echo "All Fields Required";
 		}
     }
-
-  if(isset($_POST['delete']))
+?>
+<?php
+  if(isset($_POST['delete'])) //Delete User
   {
     $user_name = $_POST['user_name'];
 
+
+    $username_query = "SELECT * FROM Fisherman WHERE Username = '$user_name'"; 
+    $username_match = mysqli_query($con, $username_query);
+
+    if(mysqli_num_rows($username_match)>0)
+    {
       $query = "CALL DropFisherman('$user_name')"; //STORED PROCEDURE DropFisherman;
       $query_run = mysqli_query($con, $query);
       if($query_run)
       {
         echo '<script type="text/javascript"> alert("User Deleted") </script>';
 				//header("Location: userManagement.php");
-				//die;
       }
       else
       {
         echo '<script type="text/javascript"> alert("User Not Deleted") </script>';
       }
-   
+      
+    }
+    else{
+      echo '<script type="text/javascript"> alert("Username Does Not exists") </script>';
+     
+    }
   }
-
-  if(isset($_POST['edit']))
+?>
+<?php
+  if(isset($_POST['edit'])) //Update User
   {
-   
+    //echo '<script type="text/javascript"> alert("Update Button Pushed") </script>';
+    $user_name = $_POST['user_name']; // grab username from input
+    if(!empty($user_name)) // if username from input is not empty, continue
+    {
+      $sql = "SELECT * FROM Fisherman WHERE Username = '$user_name'"; // grab conditional query from database
 
-  }
+      $getResults = mysqli_query($con, $sql); // put results from query into &getResults
+
+        if(mysqli_num_rows($getResults)>0) // if more than 0 rows come back, continue
+        {
+
+          //echo '<script type="text/javascript"> alert("Username Found") </script>'; // alert for testing
+         // $new_user_name = $_POST['new_user_name']; // grab new username from input
+          $name = $_POST['person_name']; // grab name from input
+          $password = $_POST['password']; // grab password from input
+          $type = $_POST['FishermanType']; // grab type from input
+
+          if(!empty($name)){
+            //echo '<script type="text/javascript"> alert("name") </script>';
+          $query = "UPDATE Fisherman SET Fisherman.Name = '$name' WHERE Username = '$user_name'"; 
+          mysqli_query($con, $query);
+          }
+
+         /* if(!empty($new_user_name)){
+          $query = "UPDATE Fisherman SET Fisherman.Username = '$new_user_name' WHERE Username = '$user_name'"; 
+          $query_run = mysqli_query($con, $query);
+          mysqli_query($con, $query);
+          } */
+
+          /* if(!empty($password)){
+            $hash = password_hash($password, PASSWORD_DEFAULT);
+            $query = "UPDATE Fisherman SET Fisherman.Password = '$hash' WHERE Username = '$user_name'"; 
+            mysqli_query($con, $query);
+          } */
+
+          if(!empty($type)){
+            $query = "UPDATE FishermanType SET FishermanType.Type = '$type' WHERE Username = '$user_name'"; 
+            mysqli_query($con, $query);
+          }
+
+            //echo '<script type="text/javascript"> alert("User Info Updated") </script>';      
+        }
+        else{
+          echo '<script type="text/javascript"> alert("Username Not Found") </script>';
+        }
+      }
+      else
+      {
+        echo '<script type="text/javascript"> alert("Must Enter a Username") </script>';
+      }                        
+    }
+ 
 
 
 ?>
@@ -138,6 +200,7 @@ if(isset($_POST['add']))
             ?>
 
         </div>
+        
               
               <div class="container">
                 <button class = "modal-button" href="#myModal1">Add User</button><!-- Add User -->
@@ -181,7 +244,7 @@ if(isset($_POST['add']))
                 </div>    
                  </div> 
                 <div class="container">
-                  <button class="modal-button" href="#myModal2">Edit User</button><!-- Edit User -->
+                  <button class="modal-button" href="#myModal2">Update User</button><!-- Edit User -->
                 </div><br>
                 <!-- The Modal -->
                 <div id="myModal2" class="modal"> 
@@ -190,19 +253,21 @@ if(isset($_POST['add']))
                   <div class="modal-content">
                     <div class="modal-header">
                       <span class="close">&times;</span>
-                      <h2>Edit User</h2>
+                      <h2>Update User</h2>
                     </div>
                     <div class="modal-body">
                       <form method="post">
-                      <div style="font-size: 20px;margin: 10px;color: white;">Add</div>
-
-                      
-                        Full Name:<input id="text" type="text" name="person_name"><br><br>
-                        Username: <input id="text" type="text" name="user_name"><br><br>
-                        Password: <input id="text" type="password" name="password"><br><br>
+                       
+                      <div style="font-size: 20px;margin: 10px;color: white;"></div>
+                        
+                        Username: <input id="text" type="text" name="user_name"><br>
+                        <h3>Update User Info</h3>
+                        Name:     <input id="text" type="text" name="person_name"><br><br>
+                       <!--  New Username: <input id="text" type="text" name="new_user_name"><br><br> -->
+                        <!-- New Password:  <input id="text" type="password" name="password"><br><br> -->
                         <label for="FishermanType">Fisherman Type: </label><br>
                         <select name="FishermanType" id="FishermanType">
-                            <option hidden selected> -- select an option -- </option>
+                            <option hidden disabled selected value> -- select an option -- </option>
                             <option value="bass">Bass</option>
                             <option value="fly">Fly</option>
                             <option value="spear">Spear</option>
@@ -212,9 +277,11 @@ if(isset($_POST['add']))
                             <option value="salt">Salt Water</option>
                         </select><br><br>
                         
+                      <input id="button" type="submit" name="edit" value="Edit"><br><br> 
+                      </form>
+                        
 
-                        <!-- <input id="button" type="submit" name="edit" value="Edit"><br><br> -->
-                        </form>
+                        
                      </div>
                       <!--<div class="modal-footer">
                         <h3></h3>
@@ -235,9 +302,8 @@ if(isset($_POST['add']))
                     </div>
                     <div class="modal-body">
                       <form method="POST"> <!-- form method delete -->
-                      <div style="font-size: 20px;margin: 10px;color: white;">Add</div>
+                      <div style="font-size: 20px;margin: 10px;color: white;"></div>
 
-                      <p>Enter Username to Delete Fisherman:</p>
                         Username: <input id="text" type="text" name="user_name"><br><br>
                         
                         <input id="button" type="submit" name="delete" value="Delete"><br><br>
