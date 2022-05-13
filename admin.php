@@ -8,6 +8,10 @@ session_start(); //checks if the user is logged in
 		//allows user access to page if they are confirmed to be logged in
 				include("admin.html");
 		}
+		else if($_SESSION['loggedIn']){
+			// redirect admin view if user is not admin back to User view
+				header('Location: index.php');
+		}
 		else{
 		//redirect to the login page
 		header('Location: login.php'); 
