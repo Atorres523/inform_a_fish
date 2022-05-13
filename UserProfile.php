@@ -126,7 +126,7 @@ header('Location: login.php');
         </div>
               
                 <div class="container">
-                  <button class="modal-button" href="#myModal">Update User</button><!-- Edit User -->
+                  <button class="modal-button" href="#myModal">Update Info</button><!-- Edit User -->
                 </div><br>
                 <!-- The Modal -->
                 <div id="myModal" class="modal"> 
