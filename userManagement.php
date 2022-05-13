@@ -60,7 +60,8 @@ if(isset($_POST['add'])) //Add User
     }
     else
     {	
-      echo "All Fields Required";
+      //echo "All Fields Required";
+      echo '<script type="text/javascript"> alert("All Fields Required") </script>';
     }
     
   }
