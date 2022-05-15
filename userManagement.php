@@ -216,9 +216,10 @@ if(isset($_POST['add'])) //Add User
               </div><br> 
               
                 <!-- The Modal -->
-                <div id="myModal1" class="modal"> 
+                <div id="myModal1" class="modal text-center"> 
 
                   <!-- Modal content -->
+                  <div class="modal-dialog">
                   <div class="modal-content">
                     <div class="modal-header">
                       <span class="close">&times;</span>
@@ -228,7 +229,7 @@ if(isset($_POST['add'])) //Add User
                       <form method="post">
                       <div style="font-size: 20px;margin: 10px;color: white;">Add</div>
 
-                        Full Name:<input id="text" type="text" name="person_name"><br><br>
+                        Full Name: <input id="text" type="text" name="person_name"><br><br>
                         Username: <input id="text" type="text" name="user_name"><br><br>
                         Password: <input id="text" type="password" name="password"><br><br>
                         <label for="FishermanType">Fisherman Type: </label><br>
@@ -252,13 +253,15 @@ if(isset($_POST['add'])) //Add User
                       </div> -->
                 </div>    
                  </div> 
+          </div>
                 <div class="container">
                   <button class="modal-button" href="#myModal2">Update User</button><!-- Edit User -->
                 </div><br>
                 <!-- The Modal -->
-                <div id="myModal2" class="modal"> 
+                <div id="myModal2" class="modal text-center"> 
 
                   <!-- Modal content -->
+                  <div class="modal-dialog">
                   <div class="modal-content">
                     <div class="modal-header">
                       <span class="close">&times;</span>
@@ -269,9 +272,9 @@ if(isset($_POST['add'])) //Add User
                        
                       <div style="font-size: 20px;margin: 10px;color: white;"></div>
                         
-                        Username: <input id="text" type="text" name="user_name"><br>
-                        <h3>Update User Info</h3>
-                        Name:     <input id="text" type="text" name="person_name"><br><br>
+                        <br>Username: <input id="text" type="text" name="user_name"><br>
+                        <h3>Update User Info</h3><br>
+                        Name: <input id="text" type="text" name="person_name"><br><br>
                        <!--  New Username: <input id="text" type="text" name="new_user_name"><br><br> -->
                         <!-- New Password:  <input id="text" type="password" name="password"><br><br> -->
                         <label for="FishermanType">Fisherman Type: </label><br>
@@ -297,32 +300,35 @@ if(isset($_POST['add'])) //Add User
                       </div> -->
                 </div>    
                  </div> 
+          </div>
                 <div class="container">
                   <button class="modal-button" href="#myModal3">Delete User</button> <!-- Delete User -->
                 </div>
                 <!-- The Modal -->
-                <div id="myModal3" class="modal"> 
+                <div id="myModal3" class="modal text-center"> 
 
                   <!-- Modal content -->
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <span class="close">&times;</span>
-                      <h2>Delete User</h2>
-                    </div>
-                    <div class="modal-body">
-                      <form method="POST"> <!-- form method delete -->
-                      <div style="font-size: 20px;margin: 10px;color: white;"></div>
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header ">
+                        <span class="close">&times;</span>
+                        <h2>Delete User</h2>
+                      </div>
+                      <div class="modal-body">
+                        <form method="POST"> <!-- form method delete -->
+                        <div style="font-size: 20px;margin: 10px;color: white;"></div>
 
-                        Username: <input id="text" type="text" name="user_name"><br><br>
-                        
-                        <input id="button" type="submit" name="delete" value="Delete"><br><br>
-                        </form>
-                     </div>
-                     <!-- <div class="modal-footer">
-                        <h3></h3>
-                      </div> -->
-                </div>    
-                 </div> 
+                          Username: <input id="text" type="text" name="user_name"><br><br>
+                          
+                          <input id="button" type="submit" name="delete" value="Delete"><br><br>
+                          </form>
+                      </div>
+                      <!-- <div class="modal-footer">
+                          <h3></h3>
+                        </div> -->
+                  </div>    
+                  </div> 
+          </div>
             
          
 
