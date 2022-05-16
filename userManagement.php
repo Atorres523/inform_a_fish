@@ -216,7 +216,7 @@ if(isset($_POST['add'])) //Add User
               </div><br> 
               
                 <!-- The Modal -->
-                <div id="myModal1" class="modal text-center"> 
+                <div id="myModal1" class="modal"> 
 
                   <!-- Modal content -->
                   <div class="modal-dialog">
@@ -258,7 +258,7 @@ if(isset($_POST['add'])) //Add User
                   <button class="modal-button" href="#myModal2">Update User</button><!-- Edit User -->
                 </div><br>
                 <!-- The Modal -->
-                <div id="myModal2" class="modal text-center"> 
+                <div id="myModal2" class="modal"> 
 
                   <!-- Modal content -->
                   <div class="modal-dialog">
@@ -305,7 +305,7 @@ if(isset($_POST['add'])) //Add User
                   <button class="modal-button" href="#myModal3">Delete User</button> <!-- Delete User -->
                 </div>
                 <!-- The Modal -->
-                <div id="myModal3" class="modal text-center"> 
+                <div id="myModal3" class="modal"> 
 
                   <!-- Modal content -->
                   <div class="modal-dialog">
