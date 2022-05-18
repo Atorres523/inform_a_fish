@@ -12,6 +12,87 @@ header('Location: login.php');
 }
 ?>
 
+<?php
+
+
+// if the submit button is pressed then go into if statement
+if (isset($_POST["submit"])) {
+
+    // checks to see is all the fields have data inputed into them if not then enter again with all 
+    // required info
+    if(!empty($_POST['FishName']) &&!empty($_POST['BodyID'])) {
+
+        // give each entered input their own variable to use later if needed
+        $uname = $_POST['Username'];
+        $fish = $_POST['FishName'];
+        $body = $_POST['BodyID'];
+        $DateCaught = $_POST['DateCaught'];
+        $SizeCaught = $_POST['SizeCaught'];
+        $NativeOrStocked = $_POST['NativeOrStocked'];
+        $bait = $_POST['Bait'];
+        $SpotID = $_POST['SpotID'];
+        //check if DateCaught is empty
+        if(empty($DateCaught)){
+            $DateCaught = date("Y-m-d H:i:s");
+            }
+
+        // pass in the info into a queue that will insert data
+        $query = "CALL FishermanCatches('$uname', '$body', '$fish', '$DateCaught', '$SizeCaught', '$NativeOrStocked', '$bait', '$SpotID')"; //STORED PROCEDURE FishermanCatches
+        // execute whats in the queue
+        $run = mysqli_query($con, $query) or die(mysql_error());
+        if($run){
+
+            // print out the info you printed, not necessary 
+            echo "You entered: " . htmlspecialchars($_POST['Uname']) . " <br>";
+            echo "You entered: " . htmlspecialchars($_POST['FishName']) . " <br>";
+            echo "You entered: " . htmlspecialchars($DateCaught) . " <br>";
+            echo "You entered: " . htmlspecialchars($_POST['BodyID']) . " <br>";
+            echo "You entered: " . htmlspecialchars($_POST['SizeCaught']) . " <br>";
+            echo "You entered: " . htmlspecialchars($_POST['NativeOrStocked']) . " <br>";
+            echo "You entered: " . htmlspecialchars($_POST['Bait']) . " <br>";
+            echo "You entered: " . htmlspecialchars($_POST['SpotID']) . " <br>";
+
+            echo "<meta http-equiv='refresh' content='0'>";
+            //echo "Form Submitted";
+        }
+    }
+    else
+        echo "All fields required";
+
+    
+}
+?>
+<?php
+  if(isset($_POST['delete'])) //Delete Catch
+  {
+    $user_name = $_POST['Username'];
+    $date = $_POST['DateCaught'];
+
+
+    $catch_query = "SELECT * FROM CatchesTable WHERE Username = '$user_name' and DateCaught = '$date'"; 
+    $catch_match = mysqli_query($con, $catch_query);
+
+    if(mysqli_num_rows($catch_match)>0)
+    {
+      $query = "CALL DropCatch('$user_name','$date')"; //STORED PROCEDURE DropCatch
+      $query_run = mysqli_query($con, $query);
+      if($query_run)
+      {
+        echo '<script type="text/javascript"> alert("Catch Deleted") </script>';
+				//header("Location: userManagement.php");
+      }
+      else
+      {
+        echo '<script type="text/javascript"> alert("Catch Not Deleted") </script>';
+      }
+      
+    }
+    else{
+      echo '<script type="text/javascript"> alert("Catch Does Not exists") </script>';
+     
+    }
+  }
+?>
 
 
 <!DOCTYPE html>
@@ -21,6 +102,7 @@ header('Location: login.php');
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="userManagement.css">
+    
     <title>Catches</title>
     
 
@@ -108,6 +190,7 @@ header('Location: login.php');
         </div>
 
         </tbody>
+        <div class="container">
         <button class = "modal-button" href="#myModal1">Enter Catch</button><!-- Enter Catch -->
               </div><br> 
               
@@ -126,8 +209,31 @@ header('Location: login.php');
                       <div style="font-size: 20px;margin: 10px;color: white;"></div>
 
                         <form action="adminTestTable.php" method="POST">
-                        <label>Username: </label><br><input type="text" name="Username"><br><br>
-                        <label>Fish Caught: </label><br><input type="text" name="FishName"><br><br>
+                       <label>Username: </label><br> <!-- Username Dropdown List - all usernames present in database --> 
+                       <select name="Username">
+                           <option hidden selected> -- </option>
+                           <?php
+                           $user_results = mysqli_query($con, "select Username from Fisherman"); // grabs all Usernames from Fisherman
+                            while($rows = mysqli_fetch_array($user_results))
+                            {
+                                $user_name = $rows['Username'];
+                                echo "<option value='$user_name'>$user_name</option>";
+                            }
+                            ?>
+                            </select><br><br>
+                        <!-- <label>Fish Caught: </label><br><input type="text" name="FishName"><br><br> -->
+                        <label>Fish Caught: </label><br> <!-- Fish Dropdown List - all Fish present in database --> 
+                       <select name="FishName">
+                           <option hidden selected> -- </option>
+                           <?php
+                           $user_results = mysqli_query($con, "select FishName from Fish"); // grabs all Fish Names from Fish
+                            while($rows = mysqli_fetch_array($user_results))
+                            {
+                                $fish = $rows['FishName'];
+                                echo "<option value='$fish'>$fish</option>";
+                            }
+                            ?>
+                            </select><br><br>
                         <label>Date: </label><br><input type="text" name="DateCaught"><br><br>
                         <label for="BodyID">Body: </label><br>
                             <select name="BodyID" id="BodyID">
@@ -149,7 +255,7 @@ header('Location: login.php');
                             <select name="SizeCaught">
                             <option hidden selected> -- </option>
                                 <?php for ($i = 1; $i <= 100; $i++) : ?>
-                                    <option value="<?php echo $i; ?>"><?php echo $i; ?></option>
+                                    <option value="<?php echo $i; ?>"><?php echo $i; ?> in.</option>
                                 <?php endfor; ?>
                             </select><br><br>
 
@@ -159,7 +265,19 @@ header('Location: login.php');
                                 <option value="Native">Native</option>
                                 <option value="Stocked">Stocked</option>
                             </select><br><br>
-                        <label>Bait: </label><br><input type="text" name="Bait"><br><br>
+                        <!-- <label>Bait: </label><br><input type="text" name="Bait"><br><br> -->
+                        <label>Bait: </label><br> <!-- Baits Dropdown List - all baits present in database --> 
+                       <select name="Bait">
+                           <option hidden selected> -- </option>
+                           <?php
+                           $user_results = mysqli_query($con, "select distinct Bait from Fish"); // grabs all Baits from Fish
+                            while($rows = mysqli_fetch_array($user_results))
+                            {
+                                $bait = $rows['Bait'];
+                                echo "<option value='$bait'>$bait</option>";
+                            }
+                            ?>
+                            </select><br><br>
                         <!-- <label for="Bait">Bait:</label>
                             <select name="Bait" id="Bait">
                                 <option value="worms">Worms</option>
@@ -181,60 +299,57 @@ header('Location: login.php');
                         <h3></h3>
                       </div> -->
                 </div>    
+                 </div>
+                                </div>
+
+                <div class="container">
+                 <button class = "modal-button" href="#myModal2">Delete Catch</button><!-- Delete Catch -->
+              </div><br> 
+              
+                <!-- The Modal -->
+                <div id="myModal2" class="modal"> 
+
+                  <!-- Modal content -->
+                  <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <span class="close">&times;</span>
+                      <h2>Delete Catch</h2>
+                    </div>
+                    <div class="modal-body">
+                      <form method="post">
+                      <div style="font-size: 20px;margin: 10px;color: white;"></div>
+
+                        <form action="adminTestTable.php" method="POST">
+                       <label>Username: </label><br> <!-- Username Dropdown List - all usernames present in database --> 
+                       <select name="Username">
+                           <option hidden selected> -- </option>
+                           <?php
+                           $user_results = mysqli_query($con, "select Username from Fisherman"); // grabs all Usernames from Fisherman
+                            while($rows = mysqli_fetch_array($user_results))
+                            {
+                                $user_name = $rows['Username'];
+                                echo "<option value='$user_name'>$user_name</option>";
+                            }
+                            ?>
+                            </select><br><br>
+                        
+                        <label>Date: </label><br><input type="text" name="DateCaught"><br><br>
+
+                        <button type="submit" name="delete">Delete</button>
+
+                    </form><br>  
+                        
+                     </div>
+                      <!-- <div class="modal-footer">
+                        <h3></h3>
+                      </div> -->
+                </div>    
                  </div> 
 
+                        </div>
 
 
-<?php
-
-
-// if the submit button is pressed then go into if statement
-if (isset($_POST["submit"])) {
-
-    // checks to see is all the fields have data inputed into them if not then enter again with all 
-    // required info
-    if(!empty($_POST['FishName']) &&!empty($_POST['BodyID'])) {
-
-        // give each entered input their own variable to use later if needed
-        $uname = $_POST['Username'];
-        $fish = $_POST['FishName'];
-        $body = $_POST['BodyID'];
-        $DateCaught = $_POST['DateCaught'];
-        $SizeCaught = $_POST['SizeCaught'];
-        $NativeOrStocked = $_POST['NativeOrStocked'];
-        $bait = $_POST['Bait'];
-        $SpotID = $_POST['SpotID'];
-        //check if DateCaught is empty
-        if(empty($DateCaught)){
-            $DateCaught = date("Y-m-d H:i:s");
-            }
-
-        // pass in the info into a queue that will insert data
-        $query = "CALL FishermanCatches('$uname', '$body', '$fish', '$DateCaught', '$SizeCaught', '$NativeOrStocked', '$bait', '$SpotID')"; //STORED PROCEDURE FishermanCatches
-        // execute whats in the queue
-        $run = mysqli_query($con, $query) or die(mysql_error());
-        if($run){
-
-            // print out the info you printed, not necessary 
-            echo "You entered: " . htmlspecialchars($_POST['Uname']) . " <br>";
-            echo "You entered: " . htmlspecialchars($_POST['FishName']) . " <br>";
-            echo "You entered: " . htmlspecialchars($DateCaught) . " <br>";
-            echo "You entered: " . htmlspecialchars($_POST['BodyID']) . " <br>";
-            echo "You entered: " . htmlspecialchars($_POST['SizeCaught']) . " <br>";
-            echo "You entered: " . htmlspecialchars($_POST['NativeOrStocked']) . " <br>";
-            echo "You entered: " . htmlspecialchars($_POST['Bait']) . " <br>";
-            echo "You entered: " . htmlspecialchars($_POST['SpotID']) . " <br>";
-
-            echo "<meta http-equiv='refresh' content='0'>";
-            //echo "Form Submitted";
-        }
-    }
-    else
-        echo "All fields required";
-
-    
-}
-?>
 
     </table>
     </div>

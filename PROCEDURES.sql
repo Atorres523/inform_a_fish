@@ -127,4 +127,29 @@ END;
 //
 DELIMITER ;
 
+DROP PROCEDURE IF EXISTS DropCatch;
+
+DELIMITER //
+
+CREATE PROCEDURE DropCatch(Uname varchar(100), Date DATETIME)
+BEGIN
+
+	start transaction;
+
+	select count(*) into @usernameCount
+	from Catches
+	where Uname = Username;
+
+	if @usernameCount > 0 then
+		DELETE FROM Catches WHERE Uname = Username and Date = DateCaught;
+	else
+		SELECT NULL as Uname, "Username does not exist" AS 'Error';
+	end if;
+
+	commit;
+    
+END;
+//
+DELIMITER ;
+
 

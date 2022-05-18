@@ -10,6 +10,8 @@ else{
 //redirect to the login page
 header('Location: login.php'); 
 }
+?>
+<?php
 
 if(isset($_POST['add'])) //Add User
 	{
@@ -21,13 +23,7 @@ if(isset($_POST['add'])) //Add User
     $username_query = "SELECT * FROM Fisherman WHERE Username = '$user_name'"; 
     $username_match = mysqli_query($con, $username_query);
 
-    if(mysqli_num_rows($username_match)>0)
-    {
-      echo '<script type="text/javascript"> alert("Username already exists") </script>';
-      
-    }
-
-		else if(!empty($name) && !empty($user_name) && !empty($password) && !empty($type))
+   if(!empty($name) && !empty($user_name) && !empty($password) && !empty($type))
 		{
 			//sequel injection prevention
 			$validation = $con->prepare("SELECT * FROM Fisherman WHERE Username=?");
@@ -155,6 +151,8 @@ if(isset($_POST['add'])) //Add User
 
 ?>
 
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -272,7 +270,18 @@ if(isset($_POST['add'])) //Add User
                        
                       <div style="font-size: 20px;margin: 10px;color: white;"></div>
                         
-                        <br>Username: <input id="text" type="text" name="user_name"><br>
+                      <label>Username: </label><br> <!-- Username Dropdown List - all usernames present in database --> 
+                       <select name="user_name">
+                           <option hidden selected> -- </option>
+                           <?php
+                           $user_results = mysqli_query($con, "select Username from Fisherman"); // grabs all Usernames from Fisherman
+                            while($rows = mysqli_fetch_array($user_results))
+                            {
+                                $user_name = $rows['Username'];
+                                echo "<option value='$user_name'>$user_name</option>";
+                            }
+                            ?>
+                            </select><br><br>
                         <h3>Update User Info</h3><br>
                         Name: <input id="text" type="text" name="person_name"><br><br>
                        <!--  New Username: <input id="text" type="text" name="new_user_name"><br><br> -->
@@ -318,7 +327,18 @@ if(isset($_POST['add'])) //Add User
                         <form method="POST"> <!-- form method delete -->
                         <div style="font-size: 20px;margin: 10px;color: white;"></div>
 
-                          Username: <input id="text" type="text" name="user_name"><br><br>
+                          <label>Username: </label><br> <!-- Username Dropdown List - all usernames present in database --> 
+                       <select name="user_name">
+                           <option hidden selected> -- </option>
+                           <?php
+                           $user_results = mysqli_query($con, "select Username from Fisherman"); // grabs all Usernames from Fisherman
+                            while($rows = mysqli_fetch_array($user_results))
+                            {
+                                $user_name = $rows['Username'];
+                                echo "<option value='$user_name'>$user_name</option>";
+                            }
+                            ?>
+                            </select><br><br>
                           
                           <input id="button" type="submit" name="delete" value="Delete"><br><br>
                           </form>
