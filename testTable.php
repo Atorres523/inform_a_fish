@@ -15,7 +15,7 @@ header('Location: login.php');
 
 
 // if the submit button is pressed then go into if statement
-if (isset($_POST["submit"])) {
+if (isset($_POST["submit"])) { //Enter Catch
 
     // checks to see is all the fields have data inputed into them if not then enter again with all 
     // required info
@@ -31,7 +31,7 @@ if (isset($_POST["submit"])) {
         $bait = $_POST['Bait'];
         $SpotID = $_POST['SpotID'];
         //check if DateCaught is empty
-        if(empty($DateCaught)){
+        if(empty($DateCaught)){ //If DateCaught is empty, default to current time and date
             $DateCaught = date("Y-m-d H:i:s");
             }
 
@@ -42,16 +42,16 @@ if (isset($_POST["submit"])) {
         if($run){
 
             // print out the info you printed, not necessary 
-            echo "You entered: " . htmlspecialchars($_POST['Uname']) . " <br>";
+           /* echo "You entered: " . htmlspecialchars($_POST['Uname']) . " <br>";
             echo "You entered: " . htmlspecialchars($_POST['FishName']) . " <br>";
             echo "You entered: " . htmlspecialchars($DateCaught) . " <br>";
             echo "You entered: " . htmlspecialchars($_POST['BodyID']) . " <br>";
             echo "You entered: " . htmlspecialchars($_POST['SizeCaught']) . " <br>";
             echo "You entered: " . htmlspecialchars($_POST['NativeOrStocked']) . " <br>";
             echo "You entered: " . htmlspecialchars($_POST['Bait']) . " <br>";
-            echo "You entered: " . htmlspecialchars($_POST['SpotID']) . " <br>";
+            echo "You entered: " . htmlspecialchars($_POST['SpotID']) . " <br>";*/
 
-            echo "<meta http-equiv='refresh' content='0'>";
+            //echo "<meta http-equiv='refresh' content='0'>";
             //echo "Form Submitted";
         }
     }
@@ -64,7 +64,7 @@ if (isset($_POST["submit"])) {
 <?php
   if(isset($_POST['delete'])) //Delete Catch
   {
-    $user_name = $_SESSION['Username'];
+    $user_name = $_SESSION['user_name'];
     $date = $_POST['DateCaught'];
 
 
@@ -206,7 +206,7 @@ if (isset($_POST["submit"])) {
                       <form method="post">
                       <div style="font-size: 20px;margin: 10px;color: white;"></div>
 
-                        <form action="adminTestTable.php" method="POST">
+                        <form action="testTable.php" method="POST">
                         <label>Username: </label><br><input type="text" readonly="true" style="color:#888;" onblur="inputBlur(this)" value=<?php echo $_SESSION['user_name']; ?>><br><br>
                         <!--<label>Fish Caught: </label><br><input type="text" name="FishName"><br><br>-->
                         <label>Fish Caught: </label><br> <!-- Fish Dropdown List - all Fish present in database --> 
@@ -307,10 +307,29 @@ if (isset($_POST["submit"])) {
                       <form method="post">
                       <div style="font-size: 20px;margin: 10px;color: white;"></div>
 
-                        <form action="adminTestTable.php" method="POST">
+                        <form action="testTable.php" method="POST">
                        
                         <label>Username: </label><br><input type="text" readonly="true" style="color:#888;" onblur="inputBlur(this)" value=<?php echo $_SESSION['user_name']; ?>><br><br>
-                        <label>Date: </label><br><input type="text" name="DateCaught"><br><br>
+                        
+                        <label>Date: </label><br> 
+                       <select name="DateCaught">
+                           <option hidden selected> -- </option>
+                           <?php
+                           $user_name = $_SESSION['user_name'];
+                           $user_results = mysqli_query($con, "select DateCaught from Catches where Username = '$user_name'"); // grabs all Dates from Catches
+                           if(mysqli_num_rows($user_results)>0)
+                              while($rows = mysqli_fetch_array($user_results))
+                              {
+                                  $date = $rows['DateCaught'];
+                                  echo "<option value='$date'>$date</option>";
+                              }
+                            else
+                            {
+                              echo "<option disabled>(Empty)</option>";
+                            }
+                            
+                            ?>
+                            </select><br><br>
 
                         <button type="submit" name="delete">Delete</button>
 
