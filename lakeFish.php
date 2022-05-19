@@ -118,7 +118,7 @@ session_start(); //checks if the user is logged in
 				
 				$lname = $_POST['lake'];
 
-				$query = "CALL fishSwims('$lname')"; 
+				$query = "CALL fishSwims('$lname')"; // procedure fishSwims
 		
 				$result = mysqli_query($con, $query);
 
