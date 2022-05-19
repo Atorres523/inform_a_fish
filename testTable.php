@@ -31,7 +31,7 @@ if (isset($_POST["submit"])) { //Enter Catch
         $bait = $_POST['Bait'];
         $SpotID = $_POST['SpotID'];
         //check if DateCaught is empty
-        if(empty($DateCaught)){
+        if(empty($DateCaught)){ //If DateCaught is empty, default to current time and date
             $DateCaught = date("Y-m-d H:i:s");
             }
 
@@ -42,14 +42,14 @@ if (isset($_POST["submit"])) { //Enter Catch
         if($run){
 
             // print out the info you printed, not necessary 
-            echo "You entered: " . htmlspecialchars($_POST['Uname']) . " <br>";
+           /* echo "You entered: " . htmlspecialchars($_POST['Uname']) . " <br>";
             echo "You entered: " . htmlspecialchars($_POST['FishName']) . " <br>";
             echo "You entered: " . htmlspecialchars($DateCaught) . " <br>";
             echo "You entered: " . htmlspecialchars($_POST['BodyID']) . " <br>";
             echo "You entered: " . htmlspecialchars($_POST['SizeCaught']) . " <br>";
             echo "You entered: " . htmlspecialchars($_POST['NativeOrStocked']) . " <br>";
             echo "You entered: " . htmlspecialchars($_POST['Bait']) . " <br>";
-            echo "You entered: " . htmlspecialchars($_POST['SpotID']) . " <br>";
+            echo "You entered: " . htmlspecialchars($_POST['SpotID']) . " <br>";*/
 
             //echo "<meta http-equiv='refresh' content='0'>";
             //echo "Form Submitted";
@@ -64,7 +64,7 @@ if (isset($_POST["submit"])) { //Enter Catch
 <?php
   if(isset($_POST['delete'])) //Delete Catch
   {
-    $user_name = $_SESSION['Username'];
+    $user_name = $_SESSION['user_name'];
     $date = $_POST['DateCaught'];
 
 
@@ -317,11 +317,17 @@ if (isset($_POST["submit"])) { //Enter Catch
                            <?php
                            $user_name = $_SESSION['user_name'];
                            $user_results = mysqli_query($con, "select DateCaught from Catches where Username = '$user_name'"); // grabs all Dates from Catches
-                            while($rows = mysqli_fetch_array($user_results))
+                           if(mysqli_num_rows($user_results)>0)
+                              while($rows = mysqli_fetch_array($user_results))
+                              {
+                                  $date = $rows['DateCaught'];
+                                  echo "<option value='$date'>$date</option>";
+                              }
+                            else
                             {
-                                $date = $rows['DateCaught'];
-                                echo "<option value='$date'>$date</option>";
+                              echo "<option disabled>(Empty)</option>";
                             }
+                            
                             ?>
                             </select><br><br>
 
