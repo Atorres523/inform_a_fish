@@ -209,4 +209,19 @@ END
 //
 DELIMITER;
 
+DROP PROCEDURE IF EXISTS IsAdmin;
+
+DELIMITER //
+
+CREATE PROCEDURE IsAdmin(param_username varchar(100))
+BEGIN
+    SELECT COUNT(*) AS result
+    FROM UserRoles
+    WHERE UserRoles.Username = param_username
+    AND Role = "admin";
+END
+//
+
+DELIMITER ;
+
 
