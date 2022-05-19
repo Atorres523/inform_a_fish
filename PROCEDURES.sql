@@ -127,6 +127,24 @@ END;
 //
 DELIMITER ;
 
+DELIMITER //
+
+CREATE PROCEDURE FishBody(param_fish varchar(100), param_bodyid int)
+BEGIN
+
+    SELECT COUNT(*) INTO @FishCount
+    FROM Swims
+    WHERE FishName = param_fish AND BodyID = param_bodyid;
+
+    IF @FishCount = 0 THEN
+        insert into Swims (FishName, BodyID) values (param_fish, param_bodyid);
+	END IF;
+    
+END;
+// 
+DELIMITER ;
+
+
 DROP PROCEDURE IF EXISTS DropCatch;
 
 DELIMITER //

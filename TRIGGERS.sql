@@ -37,3 +37,16 @@ END
 //
 
 DELIMITER ;
+
+
+DELIMITER //
+CREATE TRIGGER fishSwims
+AFTER INSERT ON Catches
+FOR EACH ROW
+BEGIN
+    CALL FishBody(NEW.FishName, NEW.BodyID);
+   
+END
+//
+
+DELIMITER ;
