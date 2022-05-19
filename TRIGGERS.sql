@@ -1,6 +1,7 @@
 DROP TRIGGER IF EXISTS FishermanDelete;
 DROP TRIGGER IF EXISTS FishermanUpdate;
 DROP TRIGGER IF EXISTS SwimsInsert;
+DROP TRIGGER IF EXISTS fishSwims;
 
 DELIMITER //
 /*saves user account info and stored in Fisherman_History before deleting*/

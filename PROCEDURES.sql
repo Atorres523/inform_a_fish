@@ -127,6 +127,8 @@ END;
 //
 DELIMITER ;
 
+DROP PROCEDURE IF EXISTS FishBody;
+
 DELIMITER //
 
 CREATE PROCEDURE FishBody(param_fish varchar(100), param_bodyid int)
@@ -169,5 +171,42 @@ BEGIN
 END;
 //
 DELIMITER ;
+
+DROP PROCEDURE IF EXISTS InsertRole;
+
+DELIMITER //
+
+CREATE PROCEDURE InsertRole(uname varchar(100), role varchar(20))
+BEGIN
+
+        INSERT INTO UserRoles (Username, Role) VALUES (uname, role);
+        
+END
+//
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS fishswims;
+
+DELIMITER //
+CREATE PROCEDURE fishSwims(param_name varchar(100))
+BEGIN
+    SELECT FishName
+    FROM Body NATURAL JOIN Catches
+    WHERE Body.Name = param_name;
+END
+//
+DELIMITER;
+
+DROP PROCEDURE IF EXISTS fishInfo;
+
+DELIMITER //
+CREATE PROCEDURE fishInfo(param_name varchar(100))
+BEGIN
+    SELECT Fish.*
+    FROM Fish
+    WHERE Fish.FishName = param_name;
+END
+//
+DELIMITER;
 
 
