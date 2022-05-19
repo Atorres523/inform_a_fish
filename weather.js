@@ -1,3 +1,8 @@
+// Evan () {
+//     document.getElementById('latitude').value = 33.9963; 
+//     document.getElementById('longitude').value = -117.3798; 
+// }
+
 const app = {
   init: () => {
     document
@@ -6,6 +11,9 @@ const app = {
     document
       .getElementById('btnCurrent')
       .addEventListener('click', app.getLocation);
+    document
+      .getElementById('Evan')
+      .addEventListener(Evan);
   },
   fetchWeather: (ev) => {
     //use the values from latitude and longitude to fetch the weather
@@ -37,9 +45,9 @@ const app = {
   ftw: (position) => {
     //got position
     document.getElementById('latitude').value =
-      position.coords.latitude.toFixed(2);
+      position.coords.latitude.toFixed(4);
     document.getElementById('longitude').value =
-      position.coords.longitude.toFixed(2);
+      position.coords.longitude.toFixed(4);
   },
   wtf: (err) => {
     //geolocation failed
@@ -68,12 +76,12 @@ const app = {
                 />
                 <div class="card-body">
                   <h3 class="card-title">${day.weather[0].main}</h3>
-                  <p class="card-text">High ${day.temp.max}&deg;C Low ${
+                  <p class="card-text">High ${day.temp.max}&deg;F Low ${
             day.temp.min
-          }&deg;C</p>
+          }&deg;F</p>
                   <p class="card-text">High Feels like ${
                     day.feels_like.day
-                  }&deg;C</p>
+                  }&deg;F</p>
                   <p class="card-text">Pressure ${day.pressure}mb</p>
                   <p class="card-text">Humidity ${day.humidity}%</p>
                   <p class="card-text">UV Index ${day.uvi}</p>
@@ -90,7 +98,7 @@ const app = {
           </div>`;
         }
       })
-      .join(' ');
+    .join(' ');
   },
 };
 
