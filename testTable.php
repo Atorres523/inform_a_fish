@@ -185,6 +185,40 @@ if (isset($_POST["submit"])) { //Enter Catch
 
             ?>
 
+             <h3>Fish in the Morning</h3>           
+
+            <div class="container">
+            <table id="example" class="table table-striped table-bordered nowrap" style="width:100%">
+            <tr>
+            <th>FishName</th>
+            <th>Color</th>
+            <th>Bait</th>
+            <th>Depth</th>
+            <th>Region</th>
+            <th>TimeOfDay</th>
+            <th>Temperature</th>
+            </tr>
+
+            <?php
+
+                $result_fish = mysqli_query($con,"select * FROM morningFish"); //VIEW fish in the morning
+
+                while($row = mysqli_fetch_array($result_fish))
+                {
+                echo "<tr>";
+                echo "<td>" . $row['FishName'] . "</td>";
+                echo "<td>" . $row['Color'] . "</td>";
+                echo "<td>" . $row['Bait'] . "</td>";
+                echo "<td>" . $row['Depth'] . "</td>";
+                echo "<td>" . $row['Region'] . "</td>";
+                echo "<td>" . $row['TOD'] . "</td>";
+                echo "<td>" . $row['Temp'] . "</td>";
+                echo "</tr>";
+                }
+                echo "</table>";
+
+            ?>
+
         </div>
 
         </tbody>

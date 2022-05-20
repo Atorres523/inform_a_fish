@@ -181,7 +181,7 @@ BEGIN
 
         INSERT INTO UserRoles (Username, Role) VALUES (uname, role);
         
-END
+END;
 //
 DELIMITER ;
 
@@ -193,9 +193,9 @@ BEGIN
     SELECT FishName
     FROM Body NATURAL JOIN Catches
     WHERE Body.Name = param_name;
-END
+END;
 //
-DELIMITER;
+DELIMITER ;
 
 DROP PROCEDURE IF EXISTS fishInfo;
 
@@ -205,9 +205,9 @@ BEGIN
     SELECT Fish.*
     FROM Fish
     WHERE Fish.FishName = param_name;
-END
+END;
 //
-DELIMITER;
+DELIMITER ;
 
 DROP PROCEDURE IF EXISTS IsAdmin;
 
@@ -219,9 +219,8 @@ BEGIN
     FROM UserRoles
     WHERE UserRoles.Username = param_username
     AND Role = "admin";
-END
+END;
 //
 
 DELIMITER ;
-
 

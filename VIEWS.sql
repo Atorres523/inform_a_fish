@@ -1,5 +1,6 @@
 DROP VIEW IF EXISTS CatchesTable;
 DROP VIEW IF EXISTS MostFishCaught;
+DROP VIEW IF EXISTS morningFish;
 
 CREATE VIEW CatchesTable AS
 SELECT Fisherman.Name as FLname, 
@@ -23,3 +24,8 @@ on Fisherman.Username = Catches.Username
 group by Username 
 order by Amount DESC 
 limit 1;
+
+CREATE VIEW morningFish AS
+SELECT * 
+FROM Fish
+WHERE TOD = "morning";
