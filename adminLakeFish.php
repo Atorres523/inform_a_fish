@@ -30,7 +30,7 @@ session_start(); //checks if the user is logged in
 </head>
 <body>
 	
-    <a href="index.php">Return</a><br><br>
+    <a href="admin.php">Return</a><br><br>
 
 	<style type="text/css">
 	
