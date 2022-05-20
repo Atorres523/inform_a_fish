@@ -1,13 +1,5 @@
-place holder file just to see if id the repository is created
-another test
-third test
-iuoerhfgaluoierhg
+Database project from CMPS 3420 during spring 2022 at CSUB
+Group memebers: Jesus Quinonez, Spencer Denney, Alexis Torres
 
-I'm here??
-hello thhere 23
-
-testtesttest
-
-something random
-yeehhaw
-
+For the project our group created a website dirceted at fisherman. It allows fisherman to 
+record data from their catches and can compare it with other users connected to the database. 
