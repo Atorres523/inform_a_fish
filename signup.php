@@ -104,9 +104,9 @@ session_start();
 		<form method="post">
 			<div style="font-size: 20px;margin: 10px;color: white;">Sign Up</div>
 
-			Full Name:<input id="text" type="text" name="person_name"><br><br>
-			Username: <input id="text" type="text" name="user_name"><br><br>
-			Password: <input id="text" type="password" name="password"><br><br>
+			<input id="text" type="text" name="person_name" placeholder="Full Name" style="color:#888;" onblur="inputBlur(this)"><br><br>
+			<input id="text" type="text" name="user_name" placeholder="Username" style="color:#888;" onblur="inputBlur(this)"><br><br>
+			<input id="text" type="password" name="password" placeholder="Password" style="color:#888;" onblur="inputBlur(this)"><br><br>
 			<!--Fisherman Type: <input id="text" type="text" name="FishermanType"><br><br>-->
 			<label for="FishermanType">Fisherman Type: </label><br>
 			<select name="FishermanType" id="FishermanType">
@@ -126,5 +126,12 @@ session_start();
 			Already have an account? <a href="login.php">Login</a><br><br>
 		</form>
 	</div>
+
+	<script> // blurs username signaling that it cannot be changed by user
+	function inputBlur(i) {
+    if (i.value == "") { i.value = i.defaultValue; i.style.color = "#888"; }
+	}
+	</script>
+
 </body>
 </html>
