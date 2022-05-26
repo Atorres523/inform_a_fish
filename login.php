@@ -103,8 +103,8 @@ session_start();
 		<form method="post">
 			<div style="font-size: 20px;margin: 10px;color: white;">Login</div>
 
-			Username: <input id="text" type="text" name="user_name"><br><br>
-			Password: <input id="text" type="password" name="password"><br><br>
+			<input id="text" type="text" name="user_name" placeholder="Username" style="color:#888;" onblur="inputBlur(this)"><br><br>
+			<input id="text" type="password" name="password" placeholder="Password" style="color:#888;" onblur="inputBlur(this)"><br><br>
 			<!-- Name: <input id="text" type="text" name="name"><br><br> -->
 
 			<input id="button" type="submit" value="Login"><br><br> 
@@ -112,5 +112,14 @@ session_start();
 			Don't have an account? <a href="signup.php">Sign Up</a><br><br>
 		</form>
 	</div>
+
+	</script>
+
+<script> // blurs username signaling that it cannot be changed by user
+function inputBlur(i) {
+    if (i.value == "") { i.value = i.defaultValue; i.style.color = "#888"; }
+}
+</script>
+
 </body>
 </html>
