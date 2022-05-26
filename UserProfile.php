@@ -75,7 +75,7 @@ header('Location: login.php');
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="userManagement.css">
-    <title>User Management</title>
+    <title>Profile</title>
     
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -144,7 +144,7 @@ header('Location: login.php');
                         
                         <!-- Username: <input id="text" type="text" name="user_name"><br> -->
                         <h3>Update Info</h3>
-                        Name:     <input id="text" type="text" name="person_name"><br><br>
+                        Name:     <br><input id="text" type="text" name="person_name"><br><br>
                        <!--  New Username: <input id="text" type="text" name="new_user_name"><br><br> -->
                         <!-- New Password:  <input id="text" type="password" name="password"><br><br> -->
                         <label for="FishermanType">Fisherman Type: </label><br>
